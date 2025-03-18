@@ -1,4 +1,4 @@
-function reviewTool(debugMode, obj) {
+function reviewTool(debugMode, obj, connectorObj) {
     let counter = 0;
     const serverData = {};
     let outJSON = {};
@@ -307,6 +307,7 @@ function reviewTool(debugMode, obj) {
             outJSON['courseId'] = serverData.courseId;
             outJSON['reviewerId'] = serverData.reviewerId;
             console.log(outJSON);
+            connectorObj.setServerData(outJSON);
             this.hideTool();
         }, false);
         createButton("cancel", 'Cancel', blankDiv, '#6c757d', () => {
@@ -489,7 +490,7 @@ function checkMode(){
     if(debugMode)
     {
         let jsonData = connectorObj.getServerData();
-        const cl = new reviewTool(true, jsonData);
+        const cl = new reviewTool(true, jsonData, connectorObj);
         cl.createButton('showTool', 'Add Comment', buttonWrapper, '#007bff', () => {
             cl.showTool();
         }, true);
