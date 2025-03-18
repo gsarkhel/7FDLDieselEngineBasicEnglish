@@ -1,6 +1,6 @@
 function reviewTool(debugMode, obj) {
-    let counter = 0;    
-    let userData;
+    let counter = 0;
+    const serverData = {};
     let outJSON = {};
     let data = {};
     const objToolWrapper = {};
@@ -34,10 +34,14 @@ function reviewTool(debugMode, obj) {
     }
     const init = () => {
         counter = 0;
-        userData = debugMode ? obj.reviewerName : "John Doe";
+        Object.keys(obj).forEach(function(i){
+            serverData[i] = obj[i];
+        });
         outJSON = {
-            courseName: "Sample Course",
-            reviewerName: "John Doe",
+            courseName: serverData.courseName,
+            courseId: serverData.courseId,
+            reviewerName: serverData.reviewerName,
+            reviewerId: serverData.reviewerId,
             pageName: "Page 3",
             timeStamp: "2021-09-01 12:00:00",
             reviewType: "Review Type",
@@ -48,9 +52,9 @@ function reviewTool(debugMode, obj) {
             reviewComments: "Review Comments"
         }
         data = {
-            row0: ["Add Comments", ""],
+            row0: ["Add Comment", ""],
             row1: ["Course Name", "Reviewer Name", "Page Name"],
-            row2: [`${document.querySelector(".courseName").innerHTML} - ${document.querySelector(".moduleName").innerHTML}`, userData, `Page ${document.querySelector(".pgNum").innerHTML.split("/")[0].split(":")[1]}`],
+            row2: [`${serverData.courseName} - ${document.querySelector(".moduleName").innerHTML}`, serverData.reviewerName, `Page ${document.querySelector(".pgNum").innerHTML.split("/")[0].split(":")[1]}`],
             row3: ["Time Stamp", "Review Type*", "Severity*"],
             row4: ["input", ["Learning Manager", "PM", "SME", "Technical"], ["Low", "Medium", "High"]],
             row5: ["Category*", "Comment Type*", "Comments Status*"],
