@@ -40,8 +40,6 @@ function reviewTool(debugMode, obj) {
         outJSON = {
             courseName: serverData.courseName,
             courseId: serverData.courseId,
-            reviewerName: serverData.reviewerName,
-            reviewerId: serverData.reviewerId,
             pageName: "Page 3",
             timeStamp: "2021-09-01 12:00:00",
             reviewType: "Review Type",
@@ -306,6 +304,8 @@ function reviewTool(debugMode, obj) {
             const data = outJSON['courseName'].split(" - ");
             outJSON['courseName'] = data[0];
             outJSON['moduleName'] = data[1];
+            outJSON['reviewerName'] = serverData.reviewerName;
+            outJSON['reviewerId'] = serverData.reviewerId;
             console.log(outJSON);
             this.hideTool();
         }, false);
