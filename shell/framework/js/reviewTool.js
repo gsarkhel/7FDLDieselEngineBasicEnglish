@@ -39,7 +39,7 @@ function reviewTool(debugMode, obj) {
         });
         outJSON = {
             courseName: serverData.courseName,
-            courseId: serverData.courseId,
+            reviewerName: serverData.reviewerName,
             pageName: "Page 3",
             timeStamp: "2021-09-01 12:00:00",
             reviewType: "Review Type",
@@ -304,7 +304,7 @@ function reviewTool(debugMode, obj) {
             const data = outJSON['courseName'].split(" - ");
             outJSON['courseName'] = data[0];
             outJSON['moduleName'] = data[1];
-            outJSON['reviewerName'] = serverData.reviewerName;
+            outJSON['courseId'] = serverData.courseId;
             outJSON['reviewerId'] = serverData.reviewerId;
             console.log(outJSON);
             this.hideTool();
@@ -485,10 +485,10 @@ function checkMode(){
     const connectorObj = new window.top.opener.connector();
     const buttonWrapper = document.querySelector("#revTool");
     $(buttonWrapper).unbind('click');
-    const debugMode = connectorObj.getMode() ? true : false;
+    const debugMode = connectorObj.isDebugMode ? true : false;
     if(debugMode)
     {
-        let jsonData = connectorObj.getUserInfo();
+        let jsonData = connectorObj.getServerData();
         const cl = new reviewTool(true, jsonData);
         cl.createButton('showTool', 'Add Comment', buttonWrapper, '#007bff', () => {
             cl.showTool();
