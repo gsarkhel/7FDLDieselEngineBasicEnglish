@@ -307,7 +307,9 @@ function reviewTool(debugMode, obj, connectorObj) {
             outJSON['courseId'] = serverData.courseId;
             outJSON['reviewerId'] = serverData.reviewerId;
             console.log(outJSON);
-            connectorObj.setServerData(outJSON);
+            connectorObj.setServerData(outJSON, function(bool){
+                console.log('callback bool', bool);
+            });
             this.hideTool();
         }, false);
         createButton("cancel", 'Cancel', blankDiv, '#6c757d', () => {
