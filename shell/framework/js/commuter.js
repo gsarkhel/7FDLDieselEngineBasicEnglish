@@ -1,7 +1,7 @@
 function connector() {
   this.getServerData = window.top.getServerData;
   this.setServerData = window.top.setServerData;
-  this.isDebugMode = typeof getServerData === "function" ? true : false;
+  this.isDebugMode = typeof this.getServerData === "function" ? true : false;
   if (!this.isDebugMode) {
     this.getServerData = function () {
       return {
