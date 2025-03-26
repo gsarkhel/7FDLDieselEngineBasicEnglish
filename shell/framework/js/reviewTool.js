@@ -49,15 +49,16 @@ function reviewTool(debugMode, obj, connectorObj) {
             commentsStatus: "Comments Status",
             reviewComments: "Review Comments"
         }
+        //["Open", "Closed", "Closed - No Action", "Reopen", "Fixed", "Not Applicable"]
         data = {
             row0: ["Add Comment", ""],
             row1: ["Course Name", "Reviewer Name", "Page Name"],
             row2: [`${serverData.courseName} - ${document.querySelector(".moduleName").innerHTML}`, serverData.reviewerName, `Page ${document.querySelector(".pgNum").innerHTML.split("/")[0].split(":")[1]}`],
             row3: ["Time Stamp", "Review Type*", "Severity*"],
             row4: ["input", ["Learning Manager", "PM", "SME", "Technical"], ["Low", "Medium", "High"]],
-            row5: ["Category*", "Comment Type*", "Comments Status*"],
-            row6: [["Audio", "Content", "Edit", "Functionality", "Graphics", "ID", "Video"], ["Change", "Detect", "Question", "Suggestion"], ["Open", "Closed", "Closed - No Action", "Reopen", "Fixed", "Not Applicable"]],
-            row7: ["Review Comments*"],
+            row5: ["Category*", "Comment Type*", "Comments Status"],
+            row6: [["Audio", "Content", "Edit", "Functionality", "Graphics", "ID", "Video"], ["Change", "Detect", "Question", "Suggestion"], ""],
+            row7: ["Review Comments (max 10000 Characters)*"],
             row8: ["textarea"]
         }
         this.hideTool();
@@ -169,7 +170,7 @@ function reviewTool(debugMode, obj, connectorObj) {
                 td.style.width = '33%';
                 td.style.color = "#415065";
                 td.style.fontWeight = 'bold';                
-                td.appendChild(convertText(`${data.row3[col]}`));
+                td.appendChild(convertText(`${data.row3[col]}`, true));
                 tr.appendChild(td);
             }
             table1.appendChild(tr);
@@ -184,7 +185,6 @@ function reviewTool(debugMode, obj, connectorObj) {
                 td.style.padding = '8px';
                 td.style.width = '33%';
                 td.style.color = "#000";
-                console.log(typeof data.row4[col] === 'object');
                 if (typeof data.row4[col] === 'object') {
                     createDropDown(data.row4[col], td, `data_${counter++}`);
                 }
@@ -211,7 +211,7 @@ function reviewTool(debugMode, obj, connectorObj) {
                 td.style.width = '33%';
                 td.style.color = "#415065";
                 td.style.fontWeight = 'bold';
-                td.appendChild(convertText(`${data.row5[col]}`));
+                td.appendChild(convertText(`${data.row5[col]}`, true));
                 tr.appendChild(td);
             }
             table1.appendChild(tr);
@@ -225,15 +225,16 @@ function reviewTool(debugMode, obj, connectorObj) {
                 td.style.padding = '8px';
                 td.style.width = '33%';
                 td.style.color = "#000";
-                console.log(typeof data.row6[col] === 'object');
                 if (typeof data.row6[col] === 'object') {
                     createDropDown(data.row6[col], td, `data_${counter++}`);
                 }
-                else if (data.row4[col] === 'input') {
+                else if (data.row6[col] === 'input') {
                     createInput(td, `data_${counter++}`);
                 }
-                else if (data.row4[col] === 'textarea') {
+                else if (data.row6[col] === 'textarea') {
                     createTextArea(td, `data_${counter++}`);
+                } else if (data.row6[col] === '') {
+                    td.appendChild(convertText("Open", false));
                 }
                 // td.textContent = `${data.row4[col]}`;
                 tr.appendChild(td);
@@ -251,7 +252,7 @@ function reviewTool(debugMode, obj, connectorObj) {
             td.style.color = "#415065";
             td.style.fontWeight = 'bold';
             td.colSpan = 3;
-            td.appendChild(convertText(`${data.row7[0]}`));
+            td.appendChild(convertText(`${data.row7[0]}`, true));
             tr.appendChild(td);
             //
             table1.appendChild(tr);
@@ -298,7 +299,7 @@ function reviewTool(debugMode, obj, connectorObj) {
         createButton("add", 'Add Comment', blankDiv, 'gradient', () => {
             let lCounter = 0;
             for(let i in outJSON){
-                outJSON[i] = (lCounter < 3) ? document.getElementById(`data_${lCounter}`).innerHTML : document.getElementById(`data_${lCounter}`).value;
+                outJSON[i] = (document.getElementById(`data_${lCounter}`)) ? (lCounter < 3) ? document.getElementById(`data_${lCounter}`).innerHTML : document.getElementById(`data_${lCounter}`).value : "";
                 lCounter++;
             }
             const data = outJSON['courseName'].split(" - ");
@@ -306,19 +307,48 @@ function reviewTool(debugMode, obj, connectorObj) {
             outJSON['moduleName'] = data[1];
             outJSON['courseId'] = serverData.courseId;
             outJSON['reviewerId'] = serverData.reviewerId;
-            console.log(outJSON);
-            connectorObj.setServerData(outJSON, function(bool){
-                console.log('callback bool', bool);
+            outJSON['reviewComments'] = outJSON['commentsStatus'];
+            outJSON['commentsStatus'] = "Open";
+            const div = document.createElement('div');
+            div.style.width = '100%';
+            div.style.height = '100%';
+            div.style.position = 'absolute';
+            div.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            div.style.zIndex = '9999';
+            div.style.display = 'flex';
+            div.style.justifyContent = 'center';
+            div.style.alignItems = 'center';
+            objToolWrapper['toolWindow'].appendChild(div);
+            const img = new Image()
+            img.src = "templates/images/loader.gif";
+            img.style.width = "60px";
+            img.style.height = "60px";
+            div.appendChild(img);
+            // Below 3 lines are just for debugging purpose. Remove it later.
+            // div.remove();
+            // this.hideTool();
+            // alert('Data sent to server');
+            //
+            console.log(outJSON)
+            connectorObj.setServerData(outJSON, (msg)=>{
+                div.remove();
+                this.hideTool();
+                if(msg.toLowerCase() === 'success'){
+                    alert('Comment Saved.');
+                }else{
+                    alert('Internal Error, Comment is not Save.');
+                }
             });
-            this.hideTool();
         }, false);
         createButton("cancel", 'Cancel', blankDiv, '#6c757d', () => {
             this.hideTool();
         }, true);
     }
-    const convertText = (text) => {
+    const convertText = (text, bool) => {
         const div = document.createElement('div');
-        div.style.fontWeight = 'bold';
+        if(bool){
+            div.style.fontWeight = 'bold';
+        }
         const span = document.createElement('span');
         span.style.color = 'red';
         span.textContent = '*';
@@ -359,7 +389,6 @@ function reviewTool(debugMode, obj, connectorObj) {
             dropDown.appendChild(option);
         });
         dropDown.addEventListener('change', () => {
-            console.log(dropDown.value);
             checkFormData();
         });
         // Append dropdown to holder
@@ -388,17 +417,32 @@ function reviewTool(debugMode, obj, connectorObj) {
         textarea.style.fontSize = '16px';
         textarea.style.padding = '8px';
         textarea.style.borderRadius = '5px';
+        textarea.maxLength = 10000;
 
+        // Add character count display div
+        const charCount = document.createElement('div');
+        charCount.style.textAlign = 'left';
+        charCount.style.color = '#000';
+        charCount.style.fontSize = '14px';
+        charCount.style.marginTop = '4px';
+        charCount.textContent = 'Remaining Characters 10000';
+
+        // Add input event listener for character count
         textarea.addEventListener('input', () => {
+            const count = textarea.value.length;
+            const remaningChar = 10000 - count;
+            charCount.textContent = `Remaining Characters ${remaningChar}`;
             checkFormData();
         });
 
+        // Append textarea and character count
         // textarea.addEventListener('input', () => {
         //     checkFormData();
         // });
 
         // Append textarea to holder
         holder.appendChild(textarea);
+        holder.appendChild(charCount);
     }
     const createButton = (id, text, holder, color, callBack, bool) => {
         const button = document.createElement('button');
@@ -412,7 +456,15 @@ function reviewTool(debugMode, obj, connectorObj) {
         button.style.border= "none";
         button.style.whiteSpace= "nowrap";
         if(color === 'gradient'){
-            button.style.backgroundImage = 'linear-gradient(90deg, #1f9973 0%, #3a8184)'; 
+            const normal = 'linear-gradient(to right, #1b9d71, #3c7e83)'; 
+            const hover = 'linear-gradient(to right, #17a14e, #1a3159)'; 
+            button.style.backgroundImage = normal; 
+            button.addEventListener('mouseover', () => {
+                button.style.backgroundImage = hover; 
+            });
+            button.addEventListener('mouseout', () => {
+                button.style.backgroundImage = normal; 
+            });
         }
         else {
             button.style.backgroundColor = color; 
@@ -451,7 +503,7 @@ function reviewTool(debugMode, obj, connectorObj) {
             // Below code will check for 5 dropdowns and 1 textarea
             if(lCounter > 3)
             {
-                if(document.getElementById(`data_${lCounter}`).value === ""){
+                if(document.getElementById(`data_${lCounter}`) && document.getElementById(`data_${lCounter}`).value === ""){
                     bool = false;
                     break;
                 }
@@ -468,7 +520,6 @@ function reviewTool(debugMode, obj, connectorObj) {
 
     }
     this.showTool = () =>{
-        console.log('showTool');
         init();
     }
     this.hideTool = () =>{
@@ -493,7 +544,7 @@ function checkMode(){
     {
         let jsonData = connectorObj.getServerData();
         const cl = new reviewTool(true, jsonData, connectorObj);
-        cl.createButton('showTool', 'Add Comment', buttonWrapper, '#007bff', () => {
+        cl.createButton('showTool', 'Add Comment', buttonWrapper, 'gradient', () => {
             cl.showTool();
         }, true);
     }
