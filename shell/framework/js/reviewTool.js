@@ -411,7 +411,7 @@ function reviewTool(debugMode, obj, connectorObj) {
     dropDown.style.borderRadius = "5px";
 
     const option = document.createElement("option");
-    if(id != "data_4" && id != "data_5"){
+    if (id != "data_4" && id != "data_5") {
       option.value = "";
       option.textContent = "Select";
       option.disabled = true;
@@ -424,10 +424,10 @@ function reviewTool(debugMode, obj, connectorObj) {
       const option = document.createElement("option");
       option.value = list;
       option.textContent = list;
-      if(id == "data_4" && list == "PM"){
+      if (id == "data_4" && list == "PM") {
         option.selected = true;
       }
-      if(id == "data_5" && list == "Low"){
+      if (id == "data_5" && list == "Low") {
         option.selected = true;
       }
       dropDown.appendChild(option);
@@ -583,10 +583,9 @@ function checkMode() {
   const connectorObj = new connector();
   const buttonWrapper = document.querySelector("#revTool");
   $(buttonWrapper).unbind("click");
-  const debugMode = connectorObj.isDebugMode ? true : false;
-  if (debugMode) {
-    connectorObj.getServerData(
-      (jsonData) => {
+  connectorObj.getServerData(
+    (jsonData) => {
+      if (jsonData.is_reviewer === "true") {
         const cl = new reviewTool(true, jsonData, connectorObj);
         cl.createButton(
           "showTool",
@@ -598,10 +597,10 @@ function checkMode() {
           },
           true
         );
-      },
-      () => console.log("getServerData ERROR")
-    );
-  }
+      }
+    },
+    () => console.log("getServerData ERROR")
+  );
 }
 
 function connector() {
@@ -614,12 +613,6 @@ function connector() {
   // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
   const access_token = params.access_token;
   const course_uuid = params.course_uuid;
-  if (access_token === null) {
-    this.isDebugMode = false;
-  } else {
-    this.isDebugMode = true;
-  }
-  console.log("this.isDebugMode", this.isDebugMode);
   // ================================
   var getURL = `http://127.0.0.1:8000/api/get_data?course_uuid=${course_uuid}`;
   var setURL = "http://127.0.0.1:8000/api/set_data";
@@ -670,9 +663,9 @@ function connector() {
     fetch(setURL, {
       method: "POST",
       headers: {
-            "Authorization": `Bearer ${access_token}`,
-            "Content-Type": "application/json"
-        },
+        Authorization: `Bearer ${access_token}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(setObjNew),
     })
       .then((response) => {
