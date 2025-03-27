@@ -614,8 +614,8 @@ function connector() {
   const access_token = params.access_token;
   const course_uuid = params.course_uuid;
   // ================================
-  var getURL = `http://127.0.0.1:8000/api/get_data?course_uuid=${course_uuid}`;
-  var setURL = "http://127.0.0.1:8000/api/set_data";
+  var getURL = `https://mlcoursereviewtool.mediantlabs.com/public/api/get_data?course_uuid=${course_uuid}`;
+  var setURL = "https://mlcoursereviewtool.mediantlabs.com/public/api/set_data";
   this.getServerData = function (resolve, reject) {
     console.log("getServerData function called", course_uuid);
 
