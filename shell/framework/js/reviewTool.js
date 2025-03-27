@@ -639,6 +639,7 @@ function connector() {
   };
 
   this.setServerData = function (data, resolve, reject) {
+    console.log("setServer1Data Sending: ", data);
     fetch(setURL, {
       method: "POST",
       headers: {
