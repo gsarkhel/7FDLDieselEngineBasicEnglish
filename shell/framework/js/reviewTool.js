@@ -357,8 +357,26 @@ function reviewTool(debugMode, obj, connectorObj) {
         // this.hideTool();
         // alert('Data sent to server');
         //
+        // A NEXT LEVEL FILTER
+        var _arr = [
+          "pageName",
+          "timeStamp",
+          "reviewType",
+          "severity",
+          "category",
+          "commentType",
+          "commentsStatus",
+          "reviewComments",
+          "moduleName",
+          "courseUuid",
+        ];
+        var setObjNew = {};
+        for (var i = 0; i < _arr.length; i++) {
+          setObjNew[_arr[i]] = outJSON[_arr[i]];
+        }
+        // =======
         connectorObj.setServerData(
-          outJSON,
+          setObjNew,
           () => {
             div.remove();
             this.hideTool();
@@ -639,7 +657,7 @@ function connector() {
   };
 
   this.setServerData = function (data, resolve, reject) {
-    console.log("setServer1Data Sending: ", data);
+    console.log("setServer1Data Sending: ", JSON.stringify(data));
     fetch(setURL, {
       method: "POST",
       headers: {
@@ -664,3 +682,30 @@ function connector() {
       });
   };
 }
+
+// {
+//   "pageName": "Page  02 ",
+//   "timeStamp": "",
+//   "reviewType": "Learning Manager",
+//   "severity": "Low",
+//   "category": "Audio",
+//   "commentType": "Change",
+//   "commentsStatus": "Open",
+//   "reviewComments": "New Comment After change",
+//   "moduleName": "Combustion Theory",
+//   "courseUuid": "JDMYQ2e2ln9o08cy"
+// }
+
+// {
+//   "courseName": "PPPPPPPP",
+//   "reviewerName": "Reviewer User 1",
+//   "pageName": "Page 01",
+//   "timeStamp": "00:15",
+//   "reviewType": "Learning Manager",
+//   "severity": "Low",
+//   "category": "Audio",
+//   "commentType": "Change",
+//   "commentsStatus": "Open",
+//   "reviewComments": "Test comment",
+//   "moduleName": "Module name"
+// }
