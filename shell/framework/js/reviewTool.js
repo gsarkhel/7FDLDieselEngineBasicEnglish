@@ -665,7 +665,7 @@ function connector() {
       },
     })
       .then((response) => {
-        console.log("setServerData Response: ", data);
+        console.log("setServerData Response: ", response);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
