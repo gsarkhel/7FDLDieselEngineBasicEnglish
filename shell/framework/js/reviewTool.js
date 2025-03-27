@@ -62,7 +62,7 @@ function reviewTool(debugMode, obj, connectorObj) {
           document.querySelector(".pgNum").innerHTML.split("/")[0].split(":")[1]
         }`,
       ],
-      row3: ["Time Stamp", "Review Type*", "Severity*"],
+      row3: ["Time Stamp", "Review Type", "Severity"],
       row4: [
         "input",
         ["Learning Manager", "PM", "SME", "Technical"],
