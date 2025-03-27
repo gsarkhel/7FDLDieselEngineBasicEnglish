@@ -357,26 +357,8 @@ function reviewTool(debugMode, obj, connectorObj) {
         // this.hideTool();
         // alert('Data sent to server');
         //
-        // A NEXT LEVEL FILTER
-        var _arr = [
-          "pageName",
-          "timeStamp",
-          "reviewType",
-          "severity",
-          "category",
-          "commentType",
-          "commentsStatus",
-          "reviewComments",
-          "moduleName",
-          "courseUuid",
-        ];
-        var setObjNew = {};
-        for (var i = 0; i < _arr.length; i++) {
-          setObjNew[_arr[i]] = outJSON[_arr[i]];
-        }
-        // =======
         connectorObj.setServerData(
-          setObjNew,
+          outJSON,
           () => {
             div.remove();
             this.hideTool();
@@ -657,13 +639,31 @@ function connector() {
   };
 
   this.setServerData = function (data, resolve, reject) {
-    console.log("setServer1Data Sending: ", JSON.stringify(data));
+    // A NEXT LEVEL FILTER
+    var _arr = [
+      "pageName",
+      "timeStamp",
+      "reviewType",
+      "severity",
+      "category",
+      "commentType",
+      "commentsStatus",
+      "reviewComments",
+      "moduleName",
+    ];
+    var setObjNew = {};
+    for (var i = 0; i < _arr.length; i++) {
+      setObjNew[_arr[i]] = data[_arr[i]];
+    }
+    setObjNew.course_uuid;
+    console.log("setServer1Data Sending: ", JSON.stringify(setObjNew));
+    // =======
     fetch(setURL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(setObjNew),
     })
       .then((response) => {
         console.log("setServer1Data Response: ", response);
