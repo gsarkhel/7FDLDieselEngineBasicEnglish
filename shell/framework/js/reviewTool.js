@@ -662,10 +662,10 @@ function connector() {
     fetch(setURL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-      // body: JSON.stringify(setObjNew),
-      body: '{"pageName": "Page  02 ","timeStamp": "","reviewType": "Learning Manager","severity": "Low","category": "Audio","commentType": "Change","commentsStatus": "Open","reviewComments": "New Comment After change","moduleName": "Combustion Theory","courseUuid": "JDMYQ2e2ln9o08cy"}',
+            "Authorization": `Bearer ${access_token}`,
+            "Content-Type": "application/json"
+        },
+      body: JSON.stringify(setObjNew),
     })
       .then((response) => {
         console.log("setServer1Data Response: ", response);
