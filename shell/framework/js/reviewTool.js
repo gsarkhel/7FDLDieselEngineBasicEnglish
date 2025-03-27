@@ -655,7 +655,7 @@ function connector() {
     for (var i = 0; i < _arr.length; i++) {
       setObjNew[_arr[i]] = data[_arr[i]];
     }
-    setObjNew.course_uuid;
+    setObjNew.courseUuid = course_uuid;
     console.log("setServer1Data Sending: ", JSON.stringify(setObjNew));
     // =======
     fetch(setURL, {
