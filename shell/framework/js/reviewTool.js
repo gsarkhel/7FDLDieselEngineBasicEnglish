@@ -411,17 +411,25 @@ function reviewTool(debugMode, obj, connectorObj) {
     dropDown.style.borderRadius = "5px";
 
     const option = document.createElement("option");
-    option.value = "";
-    option.textContent = "Select";
-    option.disabled = true;
-    option.selected = true;
-    option.hidden = true;
-    dropDown.appendChild(option);
+    if(id != "data_4" && id != "data_5"){
+      option.value = "";
+      option.textContent = "Select";
+      option.disabled = true;
+      option.selected = true;
+      option.hidden = true;
+      dropDown.appendChild(option);
+    }
 
     lists.forEach((list) => {
       const option = document.createElement("option");
       option.value = list;
       option.textContent = list;
+      if(id == "data_4" && list == "PM"){
+        option.selected = true;
+      }
+      if(id == "data_5" && list == "Low"){
+        option.selected = true;
+      }
       dropDown.appendChild(option);
     });
     dropDown.addEventListener("change", () => {
