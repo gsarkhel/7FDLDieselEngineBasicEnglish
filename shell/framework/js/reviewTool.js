@@ -628,8 +628,8 @@ function connector() {
   //     };
   //   }
   // ================================
-  var getURL = `https://mlcoursereviewtool.mediantlabs.com/public/api/get_data?course_uuid=${course_uuid}`;
-  var setURL = "https://mlcoursereviewtool.mediantlabs.com/public/api/set_data";
+  var getURL = `http://127.0.0.1:8000/api/get_data?course_uuid=${course_uuid}`;
+  var setURL = "http://127.0.0.1:8000/api/set_data";
   this.getServerData = function (resolve, reject) {
     console.log("getServerData function called", course_uuid);
 
@@ -646,15 +646,37 @@ function connector() {
         return response.json();
       })
       .then((data) => {
-        console.log('data', data);
-        
-        resolve(
-          '{"course_name":"PPPPPPPP","user_name":"Author User 1","is_reviewer":false}'
-        );
-        console.log("Response:", data);
+        console.log("getServerData Response: ", data);
+        resolve(data);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("getServerData Error:", error);
+        reject(error);
+      });
+  };
+
+  this.setServerData = function (resolve, reject) {
+    console.log("setServerData function called", course_uuid);
+
+    fetch(getURL, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    })
+      .then((response) => {
+        console.log("setServerData Response: ", data);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("setServerData data: ", data);
+        // resolve(data);
+      })
+      .catch((error) => {
+        console.error("setServerData Error:", error);
         reject(error);
       });
   };
