@@ -657,6 +657,7 @@ function connector() {
     }
     setObjNew.courseUuid = course_uuid;
     console.log("setServer1Data Sending: ", JSON.stringify(setObjNew));
+    console.log("setServer1Data access_token: ", access_token);
     // =======
     fetch(setURL, {
       method: "POST",
