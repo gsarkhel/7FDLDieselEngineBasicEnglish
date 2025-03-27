@@ -617,7 +617,6 @@ function connector() {
   var getURL = `https://mlcoursereviewtool.mediantlabs.com/public/api/get_data?course_uuid=${course_uuid}`;
   var setURL = "https://mlcoursereviewtool.mediantlabs.com/public/api/set_data";
   this.getServerData = function (resolve, reject) {
-    console.log("getServerData function called", course_uuid);
 
     fetch(getURL, {
       method: "GET",
@@ -657,8 +656,6 @@ function connector() {
       setObjNew[_arr[i]] = data[_arr[i]];
     }
     setObjNew.courseUuid = course_uuid;
-    console.log("setServer1Data Sending: ", JSON.stringify(setObjNew));
-    console.log("setServer1Data access_token: ", access_token);
     // =======
     fetch(setURL, {
       method: "POST",
@@ -669,18 +666,15 @@ function connector() {
       body: JSON.stringify(setObjNew),
     })
       .then((response) => {
-        console.log("setServer1Data Response: ", response);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.text();
       })
       .then((data) => {
-        console.log("setServer1Data data: ", data);
         resolve();
       })
       .catch((error) => {
-        console.error("setServer1Data Error:", error);
         reject();
       });
   };
