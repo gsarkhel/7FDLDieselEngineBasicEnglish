@@ -585,7 +585,7 @@ function checkMode() {
   $(buttonWrapper).unbind("click");
   connectorObj.getServerData(
     (jsonData) => {
-      if (jsonData.is_reviewer === "true") {
+      if (jsonData.is_reviewer === true) {
         const cl = new reviewTool(true, jsonData, connectorObj);
         cl.createButton(
           "showTool",
