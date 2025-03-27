@@ -357,16 +357,15 @@ function reviewTool(debugMode, obj, connectorObj) {
         // this.hideTool();
         // alert('Data sent to server');
         //
-        console.log(outJSON);
-        connectorObj.setServerData(outJSON, (msg) => {
-          div.remove();
-          this.hideTool();
-          if (msg.toLowerCase() === "success") {
+        connectorObj.setServerData(
+          outJSON,
+          () => {
+            div.remove();
+            this.hideTool();
             alert("Comment Saved.");
-          } else {
-            alert("Internal Error, Comment is not Save.");
-          }
-        });
+          },
+          () => alert("Internal Error, Comment is not Save.")
+        );
       },
       false
     );
@@ -614,20 +613,6 @@ function connector() {
   }
   console.log("this.isDebugMode", this.isDebugMode);
   // ================================
-  //   this.getServerData = window.top.getServerData;
-  //   this.setServerData = window.top.setServerData;
-  //   this.isDebugMode = typeof this.getServerData === "function" ? true : false;
-  //   if (!this.isDebugMode) {
-  //     this.getServerData = function () {
-  //       return {
-  //         reviewerName: "Parent Name",
-  //         courseName: "Parent Course",
-  //         reviewerId: 5,
-  //         courseId: 2,
-  //       };
-  //     };
-  //   }
-  // ================================
   var getURL = `http://127.0.0.1:8000/api/get_data?course_uuid=${course_uuid}`;
   var setURL = "http://127.0.0.1:8000/api/set_data";
   this.getServerData = function (resolve, reject) {
@@ -646,38 +631,35 @@ function connector() {
         return response.json();
       })
       .then((data) => {
-        console.log("getServerData Response: ", data);
         resolve(data);
       })
       .catch((error) => {
-        console.error("getServerData Error:", error);
         reject(error);
       });
   };
 
-  this.setServerData = function (resolve, reject) {
-    console.log("setServerData function called", course_uuid);
-
-    fetch(getURL, {
-      method: "GET",
+  this.setServerData = function (data, resolve, reject) {
+    fetch(setURL, {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
+      body: JSON.stringify(data),
     })
       .then((response) => {
-        console.log("setServerData Response: ", response);
+        console.log("setServer1Data Response: ", response);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json();
+        return response.text();
       })
       .then((data) => {
-        console.log("setServerData data: ", data);
-        // resolve(data);
+        console.log("setServer1Data data: ", data);
+        resolve();
       })
       .catch((error) => {
-        console.error("setServerData Error:", error);
-        reject(error);
+        console.error("setServer1Data Error:", error);
+        reject();
       });
   };
 }
