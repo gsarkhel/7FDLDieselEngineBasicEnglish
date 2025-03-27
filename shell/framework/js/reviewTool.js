@@ -646,6 +646,8 @@ function connector() {
         return response.json();
       })
       .then((data) => {
+        console.log('data', data);
+        
         resolve(
           '{"course_name":"PPPPPPPP","user_name":"Author User 1","is_reviewer":false}'
         );
