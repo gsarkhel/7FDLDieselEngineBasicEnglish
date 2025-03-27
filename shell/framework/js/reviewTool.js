@@ -38,8 +38,8 @@ function reviewTool(debugMode, obj, connectorObj) {
       serverData[i] = obj[i];
     });
     outJSON = {
-      courseName: serverData.courseName,
-      reviewerName: serverData.reviewerName,
+      courseName: serverData.course_name,
+      reviewerName: serverData.user_name,
       pageName: "Page 3",
       timeStamp: "2021-09-01 12:00:00",
       reviewType: "Review Type",
@@ -54,10 +54,10 @@ function reviewTool(debugMode, obj, connectorObj) {
       row0: ["Add Comment", ""],
       row1: ["Course Name", "Reviewer Name", "Page Name"],
       row2: [
-        `${serverData.courseName} - ${
+        `${serverData.course_name} - ${
           document.querySelector(".moduleName").innerHTML
         }`,
-        serverData.reviewerName,
+        serverData.user_name,
         `Page ${
           document.querySelector(".pgNum").innerHTML.split("/")[0].split(":")[1]
         }`,
