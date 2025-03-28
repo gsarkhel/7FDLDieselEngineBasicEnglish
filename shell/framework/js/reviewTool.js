@@ -617,7 +617,6 @@ function connector() {
   var getURL = `https://mlcoursereviewtool.mediantlabs.com/public/api/get_data?course_uuid=${course_uuid}`;
   var setURL = "https://mlcoursereviewtool.mediantlabs.com/public/api/set_data";
   this.getServerData = function (resolve, reject) {
-
     fetch(getURL, {
       method: "GET",
       headers: {
@@ -634,6 +633,13 @@ function connector() {
         resolve(data);
       })
       .catch((error) => {
+        // ONLY FOR DEBUGGING PURPOSE
+        // resolve({
+        //   course_name: "New Course on 28th Mar 20256",
+        //   is_reviewer: true,
+        //   user_name: "Reviewer User 1123",
+        // });
+        // =============
         reject(error);
       });
   };
@@ -679,30 +685,3 @@ function connector() {
       });
   };
 }
-
-// {
-//   "pageName": "Page  02 ",
-//   "timeStamp": "",
-//   "reviewType": "Learning Manager",
-//   "severity": "Low",
-//   "category": "Audio",
-//   "commentType": "Change",
-//   "commentsStatus": "Open",
-//   "reviewComments": "New Comment After change",
-//   "moduleName": "Combustion Theory",
-//   "courseUuid": "JDMYQ2e2ln9o08cy"
-// }
-
-// {
-//   "courseName": "PPPPPPPP",
-//   "reviewerName": "Reviewer User 1",
-//   "pageName": "Page 01",
-//   "timeStamp": "00:15",
-//   "reviewType": "Learning Manager",
-//   "severity": "Low",
-//   "category": "Audio",
-//   "commentType": "Change",
-//   "commentsStatus": "Open",
-//   "reviewComments": "Test comment",
-//   "moduleName": "Module name"
-// }
