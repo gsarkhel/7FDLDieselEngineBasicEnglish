@@ -347,11 +347,16 @@ function reviewTool(debugMode, obj, connectorObj) {
         div.style.justifyContent = "center";
         div.style.alignItems = "center";
         objToolWrapper["toolWindow"].appendChild(div);
-        const img = new Image();
-        img.src = "templates/images/loader.gif";
-        img.style.width = "60px";
-        img.style.height = "60px";
-        div.appendChild(img);
+        // const img = new Image();
+        // img.src = "templates/images/loader.gif";
+        // img.style.width = "60px";
+        // img.style.height = "60px";
+        // div.appendChild(img);
+        const loadDiv = document.createElement("div");
+        loadDiv.setAttribute("class", "loadDiv");
+        loadDiv.setAttribute("style", "color: white; font-size: 44px;");
+        loadDiv.innerHTML = "Connecting...";
+        div.appendChild(loadDiv);
         // Below 3 lines are just for debugging purpose. Remove it later.
         // div.remove();
         // this.hideTool();
@@ -364,7 +369,10 @@ function reviewTool(debugMode, obj, connectorObj) {
             this.hideTool();
             alert("Comment Saved.");
           },
-          () => alert("Internal Error, Comment is not Save.")
+          () => {
+            // div.remove();
+            alert("Internal Error, Comment is not Save.");
+          }
         );
       },
       false
@@ -581,16 +589,22 @@ function reviewTool(debugMode, obj, connectorObj) {
 
 function checkMode() {
   const connectorObj = new connector();
-  const buttonWrapper = document.querySelector("#revTool");
-  $(buttonWrapper).unbind("click");
   connectorObj.getServerData(
     (jsonData) => {
       if (jsonData.is_reviewer === true) {
+        const buttonWrapper = document.querySelector("#revTool");
+        $(buttonWrapper).unbind("click");
+        // $(buttonWrapper).remove();
+        const leftcontain = document.querySelector(".leftcontain");
+        const addcommentholder = document.createElement("div");
+        addcommentholder.style.padding = "10px 0px";
+        leftcontain.appendChild(addcommentholder);
+        // ============
         const cl = new reviewTool(true, jsonData, connectorObj);
         cl.createButton(
           "showTool",
           "Add Comment",
-          buttonWrapper,
+          addcommentholder,
           "gradient",
           () => {
             cl.showTool();
@@ -633,13 +647,13 @@ function connector() {
         resolve(data);
       })
       .catch((error) => {
-        // ONLY FOR DEBUGGING PURPOSE
+        // // ONLY FOR DEBUGGING PURPOSE
         // resolve({
         //   course_name: "New Course on 28th Mar 20256",
         //   is_reviewer: true,
         //   user_name: "Reviewer User 1123",
         // });
-        // =============
+        // // =============
         reject(error);
       });
   };
@@ -685,3 +699,4 @@ function connector() {
       });
   };
 }
+window.addEventListener("load", checkMode);

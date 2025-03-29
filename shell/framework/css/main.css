@@ -5568,15 +5568,13 @@ margin-left: 22%;
     z-index: 9999;
 }
 .revTool{
- 	/* right: 2%; */
+ right: 2%;
     color: #fff;
-    /* padding: 5px; */
-    /* cursor: pointer; */
-    /* border-radius: 5px; */
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
 	position: relative;
 	top:10px;
-	width: fit-content;
-    height: max-content;
 }
 .int_txt {
     left: 26%;
@@ -5866,7 +5864,7 @@ z-index: 99;
 }
 .leftcontain {
     float: left;
-    width: 60%;
+    width: 70%;
     display: inline-flex;
     list-style: none;
     margin-bottom: 0rem;
@@ -5874,7 +5872,7 @@ z-index: 99;
 .rightcontain {
    
     float: left;
-    width: 40%;
+    width: 30%;
     list-style: none;
     display: inline-flex;
 	margin-bottom: 0rem;
@@ -6029,7 +6027,7 @@ display:table-cell ;
 }
 .leftcontain {
     float: left;
-    width: 60%;
+    width: 70%;
     display: inline-flex;
     list-style: none;
     margin-bottom: 0rem;
@@ -6038,7 +6036,7 @@ display:table-cell ;
 .rightcontain {
    
     float: left;
-    width: 40%;
+    width: 30%;
     list-style: none;
     display: inline-flex;
 	margin-bottom: 0rem;
@@ -8820,7 +8818,7 @@ width: 74%;
     max-width: 88%;
 }
 .rightcontain {
-    width: 35%;
+    width: 32%;
 }
 .leftcontain {
     width: 65%;
