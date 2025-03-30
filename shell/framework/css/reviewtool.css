@@ -1,10 +1,24 @@
+.reviewToolLightBox {
+  position: absolute;
+  left: -0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: all;
+  background-color: rgba(0, 0, 0, 0.3);
+  visibility: hidden;
+}
+
+.reviewToolLightBox.show {
+  visibility: visible;
+}
+
 .reviewToolWrapper {
   position: absolute;
   right: -360px;
   top: 0;
   width: 400px;
   height: 100%;
-  padding-top: 40px;
   pointer-events: none;
   transition: right 0.5s;
 }
@@ -42,6 +56,18 @@
 .commbutton.selected {
   background: #1a3159;
   cursor: default;
+}
+
+#closeBtn {
+  margin-top: 10px;
+  height: 50px;
+}
+
+#closeBtn .commbuttontext {
+  width: 40px;
+  margin-top: 15px;
+  margin-left: 0px;
+  transform: rotate(0deg);
 }
 
 .framePanel {

@@ -1,13 +1,18 @@
 function reviewToolClass() {
   let currentSelectedButton = '';
+  // ================================
+  const reviewToolLightBox = document.createElement('div');
+  reviewToolLightBox.setAttribute('class', 'reviewToolLightBox');
+  document.querySelector('body').append(reviewToolLightBox);
+  // ================================
   const reviewToolWrapper = document.createElement('div');
   reviewToolWrapper.setAttribute('class', 'reviewToolWrapper');
   document.querySelector('body').append(reviewToolWrapper);
   // ================================
-  function createButton(text, holder) {
+  function createButton(text, id, holder) {
     const button = document.createElement('div');
+    button.setAttribute('id', id);
     button.setAttribute('class', 'commbutton');
-    button.setAttribute('data-name', text);
     holder.append(button);
     button.addEventListener('click', butnEvent);
     // -----------
@@ -18,8 +23,13 @@ function reviewToolClass() {
     return button;
   }
   // ================================
-  const addComBtn = createButton('Add Comment', reviewToolWrapper);
-  const viewComBtn = createButton('View Comment', reviewToolWrapper);
+  const closeBtn = createButton('X', 'closeBtn', reviewToolWrapper);
+  const addComBtn = createButton('Add Comment', 'addComBtn', reviewToolWrapper);
+  const viewComBtn = createButton(
+    'View Comment',
+    'viewComBtn',
+    reviewToolWrapper
+  );
   // ================================
   // ================================
   const framePanel = document.createElement('div');
@@ -35,14 +45,24 @@ function reviewToolClass() {
   // EVENTS
   // ================================
   function butnEvent(event) {
-    reviewToolWrapper.classList.add('opened');
-    addComBtn.classList.remove('selected');
-    viewComBtn.classList.remove('selected');
-    const target = event.currentTarget;
-    target.classList.add('selected');
+    currentSelectedButton = event.currentTarget.getAttribute('id');
+
+    const elements = document.querySelectorAll('.commbutton');
+    elements.forEach((element) => {
+      element.classList.remove('selected');
+    });
+
+    if (currentSelectedButton === 'closeBtn') {
+      reviewToolLightBox.classList.remove('show');
+      reviewToolWrapper.classList.remove('opened');
+    } else {
+      reviewToolLightBox.classList.add('show');
+      reviewToolWrapper.classList.add('opened');
+      const target = event.currentTarget;
+      target.classList.add('selected');
+    }
     // ================================
     // const pageNo = document.querySelector('.pgNum').innerHTML.split('/')[0].split(':')[1];
-    currentSelectedButton = target.getAttribute('data-name');
     sendDataToFrame();
   }
   // ================================
@@ -58,7 +78,10 @@ function reviewToolClass() {
   // ================================
   function sendDataToFrame() {
     iframePanel.contentWindow.postMessage(
-      { type: 'fromCourse', text: `{"page": 1, "selected": "${currentSelectedButton}"}` }, // Message data
+      {
+        type: 'fromCourse',
+        text: `{"page": 1, "selected": "${currentSelectedButton}"}`,
+      }, // Message data
       '*' // Allowed domain (use "*" to allow all, but it's unsafe)
     );
   }
