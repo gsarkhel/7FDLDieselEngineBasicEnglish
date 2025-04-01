@@ -6,6 +6,7 @@
   height: 100%;
   pointer-events: all;
   background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1100;
   visibility: hidden;
 }
 
@@ -21,6 +22,7 @@
   height: 100%;
   pointer-events: none;
   transition: right 0.5s;
+  z-index: 1101;
 }
 
 .reviewToolWrapper.opened {
@@ -29,8 +31,8 @@
 
 .commbutton {
   width: 40px;
-  height: 150px;
-  margin-top: 10px;
+  height: 130px;
+  margin-top: 5px;
   background: linear-gradient(to top, #1b9d71, #3c7e83);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -44,7 +46,7 @@
   font-size: 16px;
   color: white;
   margin-top: 0px;
-  margin-left: 10px;
+  margin-left: 1px;
   text-align: center;
   transform: rotate(-90deg);
 }
@@ -61,6 +63,7 @@
 #closeBtn {
   margin-top: 10px;
   height: 50px;
+  background: linear-gradient(to top, #ff0000, #ba0000);
 }
 
 #closeBtn .commbuttontext {

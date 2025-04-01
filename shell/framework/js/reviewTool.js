@@ -39,7 +39,7 @@ function reviewToolClass() {
   // ================================
   const iframePanel = document.createElement('iframe');
   iframePanel.setAttribute('class', 'iframePanel');
-  iframePanel.setAttribute('src', 'http://127.0.0.1:5501/');
+  iframePanel.setAttribute('src', 'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html');
   framePanel.append(iframePanel);
   // ================================
   // EVENTS
@@ -62,7 +62,6 @@ function reviewToolClass() {
       target.classList.add('selected');
     }
     // ================================
-    // const pageNo = document.querySelector('.pgNum').innerHTML.split('/')[0].split(':')[1];
     sendDataToFrame();
   }
   // ================================
@@ -77,10 +76,11 @@ function reviewToolClass() {
   });
   // ================================
   function sendDataToFrame() {
+    const pageNo = Number(document.querySelector('.pgNum').innerHTML.split('/')[0].split(':')[1]);
     iframePanel.contentWindow.postMessage(
       {
         type: 'fromCourse',
-        text: `{"page": 1, "selected": "${currentSelectedButton}"}`,
+        text: `{"pageNo": ${pageNo}, "selected": "${currentSelectedButton}"}`,
       }, // Message data
       '*' // Allowed domain (use "*" to allow all, but it's unsafe)
     );
