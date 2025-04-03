@@ -79,10 +79,11 @@ function reviewToolClass(access_token, course_uuid) {
     const pageNo = Number(
       document.querySelector('.pgNum').innerHTML.split('/')[0].split(':')[1]
     );
+    const moduleName = document.querySelector(".moduleName").innerHTML;
     iframePanel.contentWindow.postMessage(
       {
         type: 'fromCourse',
-        text: `{"access_token": "${access_token}", "course_uuid": "${course_uuid}","pageNo": ${pageNo}, "selected": "${currentSelectedButton}"}`,
+        text: `{"access_token": "${access_token}", "course_uuid": "${course_uuid}", "moduleName":"${moduleName}", "pageNo": ${pageNo}, "selected": "${currentSelectedButton}"}`,
       }, // Message data
       '*' // Allowed domain (use "*" to allow all, but it's unsafe)
     );
