@@ -76,10 +76,10 @@ function reviewToolClass(access_token, course_uuid) {
   });
   // ================================
   function sendDataToFrame() {
-    const pageNo = Number(
+    const pageNo = `Page ${
       document.querySelector('.pgNum').innerHTML.split('/')[0].split(':')[1]
-    );
-    const moduleName = document.querySelector(".moduleName").innerHTML;
+    }`;
+    const moduleName = document.querySelector('.moduleName').innerHTML;
     iframePanel.contentWindow.postMessage(
       {
         type: 'fromCourse',
