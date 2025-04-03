@@ -1,4 +1,4 @@
-function reviewToolClass() {
+function reviewToolClass(access_token, course_uuid) {
   let currentSelectedButton = '';
   // ================================
   const reviewToolLightBox = document.createElement('div');
@@ -39,7 +39,10 @@ function reviewToolClass() {
   // ================================
   const iframePanel = document.createElement('iframe');
   iframePanel.setAttribute('class', 'iframePanel');
-  iframePanel.setAttribute('src', 'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html');
+  iframePanel.setAttribute(
+    'src',
+    'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html'
+  );
   framePanel.append(iframePanel);
   // ================================
   // EVENTS
@@ -67,23 +70,36 @@ function reviewToolClass() {
   // ================================
   // ================================
   window.addEventListener('message', (event) => {
-    // if (event.origin !== 'https://parent-site.com') {
-    //   console.warn('Blocked message from untrusted origin:', event.origin);
-    //   return;
-    // }
-    console.log('Received message parent:', event.data.text); // Process the message
-    sendDataToFrame();
+    if (('Received message parent:', event.data.type === 'getData')) {
+      sendDataToFrame();
+    }
   });
   // ================================
   function sendDataToFrame() {
-    const pageNo = Number(document.querySelector('.pgNum').innerHTML.split('/')[0].split(':')[1]);
+    const pageNo = Number(
+      document.querySelector('.pgNum').innerHTML.split('/')[0].split(':')[1]
+    );
     iframePanel.contentWindow.postMessage(
       {
         type: 'fromCourse',
-        text: `{"pageNo": ${pageNo}, "selected": "${currentSelectedButton}"}`,
+        text: `{"access_token": "${access_token}", "course_uuid": "${course_uuid}","pageNo": ${pageNo}, "selected": "${currentSelectedButton}"}`,
       }, // Message data
       '*' // Allowed domain (use "*" to allow all, but it's unsafe)
     );
   }
 }
-window.addEventListener('load', reviewToolClass);
+
+function connector() {
+  const params = new Proxy(
+    new URLSearchParams(window.top.opener.location.search),
+    {
+      get: (searchParams, prop) => searchParams.get(prop),
+    }
+  );
+  // const access_token = params.access_token;
+  // const course_uuid = params.course_uuid;
+  if (params.access_token !== null) {
+    reviewToolClass(params.access_token, params.course_uuid);
+  }
+}
+window.addEventListener('load', connector);
