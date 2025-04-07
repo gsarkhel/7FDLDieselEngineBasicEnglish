@@ -39,10 +39,6 @@ function reviewToolClass(access_token, course_uuid) {
   // ================================
   const iframePanel = document.createElement('iframe');
   iframePanel.setAttribute('class', 'iframePanel');
-  iframePanel.setAttribute(
-    'src',
-    'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html'
-  );
   framePanel.append(iframePanel);
   // ================================
   // EVENTS
@@ -59,6 +55,17 @@ function reviewToolClass(access_token, course_uuid) {
       reviewToolLightBox.classList.remove('show');
       reviewToolWrapper.classList.remove('opened');
     } else {
+      if (currentSelectedButton === 'addComBtn') {
+        iframePanel.setAttribute(
+          'src',
+          'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html'
+        );
+      } else {
+        iframePanel.setAttribute(
+          'src',
+          'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html'
+        );
+      }
       reviewToolLightBox.classList.add('show');
       reviewToolWrapper.classList.add('opened');
       const target = event.currentTarget;
