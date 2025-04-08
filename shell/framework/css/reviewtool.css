@@ -64,6 +64,7 @@
   margin-top: 10px;
   height: 50px;
   background: linear-gradient(to top, #ff0000, #ba0000);
+  visibility: hidden;
 }
 
 #closeBtn .commbuttontext {
@@ -71,6 +72,10 @@
   margin-top: 15px;
   margin-left: 0px;
   transform: rotate(0deg);
+}
+
+#closeBtn.show {
+  visibility: visible;
 }
 
 .framePanel {

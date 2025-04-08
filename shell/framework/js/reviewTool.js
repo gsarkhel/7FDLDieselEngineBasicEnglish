@@ -1,4 +1,4 @@
-function reviewToolClass(access_token, course_uuid) {
+function reviewToolClass(access_token, course_uuid, add_comment) {
   let currentSelectedButton = '';
   // ================================
   const reviewToolLightBox = document.createElement('div');
@@ -24,7 +24,13 @@ function reviewToolClass(access_token, course_uuid) {
   }
   // ================================
   const closeBtn = createButton('X', 'closeBtn', reviewToolWrapper);
-  const addComBtn = createButton('Add Comment', 'addComBtn', reviewToolWrapper);
+  if (add_comment === 'true') {
+    const addComBtn = createButton(
+      'Add Comment',
+      'addComBtn',
+      reviewToolWrapper
+    );
+  }
   const viewComBtn = createButton(
     'View Comment',
     'viewComBtn',
@@ -54,6 +60,7 @@ function reviewToolClass(access_token, course_uuid) {
     if (currentSelectedButton === 'closeBtn') {
       reviewToolLightBox.classList.remove('show');
       reviewToolWrapper.classList.remove('opened');
+      closeBtn.classList.remove('show');
     } else {
       if (currentSelectedButton === 'addComBtn') {
         iframePanel.setAttribute(
@@ -68,6 +75,7 @@ function reviewToolClass(access_token, course_uuid) {
       }
       reviewToolLightBox.classList.add('show');
       reviewToolWrapper.classList.add('opened');
+      closeBtn.classList.add('show');
       const target = event.currentTarget;
       target.classList.add('selected');
     }
@@ -107,7 +115,11 @@ function connector() {
   // const access_token = params.access_token;
   // const course_uuid = params.course_uuid;
   if (params.access_token !== null) {
-    reviewToolClass(params.access_token, params.course_uuid);
+    reviewToolClass(
+      params.access_token,
+      params.course_uuid,
+      params.add_comment
+    );
   }
 }
 window.addEventListener('load', connector);
