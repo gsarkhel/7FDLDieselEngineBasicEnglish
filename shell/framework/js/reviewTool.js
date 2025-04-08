@@ -90,7 +90,7 @@ function reviewToolClass(access_token, course_uuid) {
     iframePanel.contentWindow.postMessage(
       {
         type: 'fromCourse',
-        text: `{"access_token": "${access_token}", "course_uuid": "${course_uuid}", "moduleName":"${moduleName}", "pageNo": ${pageNo}, "selected": "${currentSelectedButton}"}`,
+        text: `{"access_token": "${access_token}", "course_uuid": "${course_uuid}", "moduleName":"${moduleName}", "pageNo": "${pageNo}", "selected": "${currentSelectedButton}"}`,
       }, // Message data
       '*' // Allowed domain (use "*" to allow all, but it's unsafe)
     );
