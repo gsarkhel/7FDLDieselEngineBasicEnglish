@@ -65,12 +65,14 @@ function reviewToolClass(access_token, course_uuid, add_comment) {
       if (currentSelectedButton === 'addComBtn') {
         iframePanel.setAttribute(
           'src',
-          'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html'
+          //'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html'
+          'https://mlcoursereviewtool.mediantlabs.com/public/api/add_comment'
         );
       } else {
         iframePanel.setAttribute(
           'src',
-          'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html'
+          //'http://reviewtool.aqbstaging.com/course_upload/ReviewToolApp/index.html'
+          'https://mlcoursereviewtool.mediantlabs.com/public/api/view_comment'
         );
       }
       reviewToolLightBox.classList.add('show');
