@@ -914,9 +914,8 @@ function fnLoadExternalShellData() {
 			ExternalShellData = json.ExternalData[0];			
 			fnAssignShellExternalData();
 			fnGenerateResources();
-			checkMode();
 			if(ExternalShellData.reviewTxt.visibility == "false"){
-				$("#revTool").css("visibility", "visible");
+				$("#revTool").css("visibility", "hidden");
 			}
 			else {
 				$("#revTool").css("visibility", "visible");

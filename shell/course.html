@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="framework/css/css/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="framework/css/css/owl.theme.default.css">	
 	<link href="framework/js/plugins/mediaelement/mediaelementplayer.css" rel="stylesheet">	
+	<link rel="stylesheet" href="framework/css/reviewtool.css">
 	<script src="framework/js/plugins/jquery-min1.10.js"></script>
 	<script src="framework/js/plugins/jquery-ui.js"></script> 	
 	<script src="framework/js/plugins/jquery.ui.touch-punch.js"></script> 
@@ -57,7 +58,7 @@
 	<script src="framework/js/learningaids.js"></script>
 	<script src="framework/js/notes.js"></script>
 	<script src="framework/js/print.js"></script>
-	<script src="framework/js/reviewTool.js"></script>
+	<script src="framework/js/reviewtool.js"></script>
 </head>
 <body oncontextmenu="return false">
 	<!-- Loading Animation -->
@@ -414,7 +415,7 @@
 
 <div class="rightcontain">
    <div id="revTool" class="revTool svg" title="Review" style="visibility: visible;">
-	<!-- img src="framework/images/Review_Tool.png" -->
+	<img src="framework/images/Review_Tool.png" >
 	</div>
 	
    <div class="page_num mobile_page_num">
@@ -532,10 +533,11 @@
 <!--CopyRight Information -->
 <!--Review Tool-->
 <script>	
-<!-- getfilesize -->
+// getfilesize
 $("#getsize").click(function(){ 
  $("#getmodulesize").toggle();
  })
+ // getfilesize
 	$('#revTool').click(function(e) {
 		var modName=$(".moduleName").html();
 		var pgName=$(".pageName").html();
